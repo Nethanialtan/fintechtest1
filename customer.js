@@ -9,6 +9,10 @@ router.get("/customer/by-cid", get_customer_by_id);
 
 router.post("/customer/add", add_new_customer);
 
+router.put("/customer/wallet", update_wallet_by_id);
+
+router.delete("/customer/del", delete_customer_by_id);
+
 function get_all_customers(request, response) {
   database.connection.query(
     "select * from customers", // query in string format
@@ -70,14 +74,15 @@ function update_wallet_by_id(id, wallet) {
   );
 }
 
-function delete_customer_by_id(id) {
+function delete_customer_by_id(request, response) {
   database.connection.query(
-    `delete from customers where id = ${id}`,
+    `delete from customers where id = ${request.query.id}`,
     (error, results) => {
       if (error) {
         console.log(error);
+        response.status(500).send("Internal Server Error");
       } else {
-        console.log("Deleted!");
+        response.status(200).send("Deleted successfully!");
       }
     }
   );
