@@ -1,3 +1,7 @@
 const customer = require("./customer");
+const express = require("express");
 
-customer.get_all_customers();
+var app = express();
+app.use(customer.router);
+
+app.listen(3000);
